@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,7 +51,7 @@ public class ScvService {
         String[] headers = {"fileName", "rowNumber", "jsonValue"};
         List<String[]> strings = result.stream()
                 .map(SelectQueryDto::toStringArray)
-                .collect(Collectors.toList());
+                .collect(Collectors.toCollection(LinkedList::new));
         strings.add(0, headers);
         try (CSVWriter csvWriter = new CSVWriter(writer)) {
             csvWriter.writeAll(strings);

@@ -30,23 +30,13 @@ public class ScvController {
         service.get(jsonKey, response.getWriter());
     }
 
-    @ExceptionHandler(CsvValidationException.class)
+    @ExceptionHandler({CsvValidationException.class, ServletException.class})
     public ResponseEntity<String> handleCsvException(CsvException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
-    @ExceptionHandler(IOException.class)
-    public ResponseEntity<String> handleIOException(IOException e) {
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-    }
-
-    @ExceptionHandler(ServletException.class)
-    public ResponseEntity<String> handleServletException(ServletException e) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-    }
-
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> allException(ServletException e) {
+    public ResponseEntity<String> handleIOException(IOException e) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
     }
 }
